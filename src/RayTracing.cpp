@@ -7,7 +7,7 @@
 #include "stb/stb_image_write.h"
 int main()
 {
-	std::cout << "Hello World!\n";
+	std::cout << "Hello   ddddd World!\n";
 	std::string st;
 	int width = 200;
 	int heigth = 200;
