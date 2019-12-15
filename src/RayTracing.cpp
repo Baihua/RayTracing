@@ -5,9 +5,11 @@
 #include <string>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb/stb_image_write.h"
+#include "math/Vector.h"
 int main()
 {
 	std::cout << "Hello World! honge edd test\n";
+
 	std::string st;
 	int width = 200;
 	int heigth = 200;
@@ -18,7 +20,7 @@ int main()
 		for (int w = 0; w < width; w++)
 		{
 			int  r = 255.99 * w / width;
-			int  g =  255.99 * h / heigth;
+			int  g = 255.99 * h / heigth;
 			int  b = 0;// 255.99 * 0.2f;
 			int p = h * (chanle * width) + chanle * w;
 			data[p] = r;

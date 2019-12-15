@@ -22,7 +22,9 @@
     <ClCompile Include="src\RayTracing.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\math\Vector.h" />
     <ClInclude Include="src\stb\stb_image_write.h" />
+    <ClInclude Include="src\Utility\Utility.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
