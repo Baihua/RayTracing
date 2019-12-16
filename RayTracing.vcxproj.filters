@@ -22,6 +22,9 @@
     <Filter Include="src\Utility">
       <UniqueIdentifier>{f4901c2b-0054-495f-b2f2-e9f07a2845a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Shape">
+      <UniqueIdentifier>{d268ded7-16a1-4b93-8b35-99d8502fb4d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RayTracing.cpp">
@@ -37,6 +40,27 @@
     </ClInclude>
     <ClInclude Include="src\Utility\Utility.h">
       <Filter>src\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\Point.h">
+      <Filter>src\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\Ray.h">
+      <Filter>src\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bl.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shape\Shape.h">
+      <Filter>src\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShadeRec.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\Normal.h">
+      <Filter>src\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\World.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

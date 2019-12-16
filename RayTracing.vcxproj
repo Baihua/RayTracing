@@ -22,9 +22,16 @@
     <ClCompile Include="src\RayTracing.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\bl.h" />
+    <ClInclude Include="src\math\Normal.h" />
+    <ClInclude Include="src\math\Point.h" />
+    <ClInclude Include="src\math\Ray.h" />
     <ClInclude Include="src\math\Vector.h" />
+    <ClInclude Include="src\ShadeRec.h" />
+    <ClInclude Include="src\Shape\Shape.h" />
     <ClInclude Include="src\stb\stb_image_write.h" />
     <ClInclude Include="src\Utility\Utility.h" />
+    <ClInclude Include="src\World.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

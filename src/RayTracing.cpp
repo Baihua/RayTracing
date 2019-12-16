@@ -6,6 +6,8 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb/stb_image_write.h"
 #include "math/Vector.h"
+#include "math/Point.h"
+#include "Shape/Shape.h"
 int main()
 {
 	std::cout << "Hello World! honge edd test\n";

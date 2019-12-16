@@ -3,6 +3,7 @@
 #include <cmath>
 #include<iostream>
 #include<cassert>
+#include<algorithm>
 namespace BL
 {
 	template<typename T> class Vector2 {
@@ -62,12 +63,12 @@ namespace BL
 		}
 
 		Vector3<T> operator/(T f) const {
-			Assert(f != 0);
+			assert(f != 0);
 			Float inv = (Float)1 / f;
 			return Vector3<T>(x * inv, y * inv, z * inv);
 		}
 		Vector3<T>& operator/=(T f) {
-			Assert(f != 0);
+			assert(f != 0);
 			Float inv = (Float)1 / f;
 			x *= inv; y *= inv; z *= inv;
 			return *this;
@@ -77,6 +78,8 @@ namespace BL
 		T LengthSquared()const { return x * x + y * y + z * z; }
 
 		T Length() const { return std::sqrt(LengthSquared()); }
+
+		explicit Vector3(const Normal3<T>& n);
 	};
 
 	template <typename T> inline Vector3<T> operator*(T s, const Vector3<T>& v) {
@@ -100,10 +103,20 @@ namespace BL
 			v1.z * v2.x - v1.x * v2.y,
 			v1.y * v2.z - v1.z * v2.z);
 	}
+
 	template <typename T> inline Vector3<T> Normalize(const Vector3<T>& v)
 	{
 		return v / v.Length();
 	}
+
+	template <typename T> T MinComponent(const Vector3<T>& v) {
+		return std::min(v.x, std::min(v.y, v.z));
+	}
+
+	template <typename T> T MaxComponent(const Vector3<T>& v) {
+		return std::max(v.x, std::max(v.y, v.z));
+	}
+
 	typedef Vector2<int> Vector2i;
 	typedef Vector2<Float> Vector2f;
 	typedef Vector3<Float> Vector3f;

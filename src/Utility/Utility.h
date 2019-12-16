@@ -1,6 +1,16 @@
 #pragma once
 namespace BL
 {
+	template <typename T>
+	class Vector2;
+	template <typename T>
+	class Vector3;
+	template <typename T>
+	class Point3;
+	template <typename T>
+	class Point2;
+	template <typename T>
+	class Normal3;
 	typedef float Float;
 	static const Float Pi = 3.14159265358979323846;
 	static const Float InvPi = 0.31830988618379067154;
