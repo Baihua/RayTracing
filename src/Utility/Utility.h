@@ -11,6 +11,7 @@ namespace BL
 	class Point2;
 	template <typename T>
 	class Normal3;
+	class World;
 	typedef float Float;
 	static const Float Pi = 3.14159265358979323846;
 	static const Float InvPi = 0.31830988618379067154;

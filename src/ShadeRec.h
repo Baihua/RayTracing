@@ -1,14 +1,49 @@
 #pragma once
 #include "math/Point.h"
 #include "math/Normal.h"
-#include "World.h"
+#include "Utility/Utility.h"
+//#include "World.h"
 namespace BL
 {
 	class RGBColor
 	{
 	public:
-		int r, g, b;
+		Float  r, g, b;
+		RGBColor() :r(0.f), g(0.f), b(0.f) {}
+		RGBColor(Float r, Float g, Float b) :r(r), g(g), b(b) {}
+		
+		RGBColor& operator=(const RGBColor c){
+			r = c.r; b = c.b; g = c.g;
+			return *this;
+		}
+
+		RGBColor operator+(const RGBColor& c)const {
+			return RGBColor(r + c.r, g + c.g, b + c.b);
+		}
+
+		RGBColor& operator+=(const RGBColor& c) {
+			r += c.r; g += c.g; b += c.b;
+			return *this;
+		}
+
+		RGBColor operator*(Float a)const {
+			return RGBColor(a * r, a * g, a * b);
+		}
+
+		RGBColor& operator*=(Float a) {
+			r *= a; g *= a; b *= a;
+			return *this;
+		}
 	};
+
+	RGBColor operator*(Float a, const RGBColor& c)
+	{
+		return c * a;
+	}
+
+	const RGBColor ColorBlack(0, 0, 0);
+	const RGBColor ColorWhite(1, 1, 1);
+	const RGBColor ColorRed(1, 0, 0);
 
 	class ShadeRec
 	{
@@ -17,13 +52,10 @@ namespace BL
 		Point3f localHitPoint;
 		Noraml3f normal;
 		RGBColor color;
-		World& world;
 
-		ShadeRec(World& world) :hitAnObject(false), localHitPoint(), normal(), color(), world(world) {
-
+		ShadeRec() :hitAnObject(false), localHitPoint(), normal(), color() {
 		}
-		ShadeRec(const ShadeRec& sr) : hitAnObject(sr.hitAnObject), localHitPoint(sr.localHitPoint), normal(sr.normal), color(sr.color), world(sr.world) {
-
+		ShadeRec(const ShadeRec& sr) : hitAnObject(sr.hitAnObject), localHitPoint(sr.localHitPoint), normal(sr.normal), color(sr.color) {
 		}
 
 		ShadeRec& operator= (const ShadeRec& sr) {
@@ -32,7 +64,6 @@ namespace BL
 				localHitPoint = sr.localHitPoint;
 				normal = sr.normal;
 				color = sr.color;
-				world = sr.world;
 			}
 			return *this;
 		}

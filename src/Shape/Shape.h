@@ -11,7 +11,6 @@ namespace BL {
 	class Shape {
 	public:
 		virtual bool Hit(const Ray& ray, Float& tMin, ShadeRec& sr) const = 0;
-	protected:
 		RGBColor color;
 	};
 
@@ -42,7 +41,7 @@ namespace BL {
 	class Sphere : public Shape {
 	public:
 		Sphere(const Point3f& p, Float r) :position(p), radious(r) {}
-		virtual bool Hit(const Ray& ray, Float& tMin, ShadeRec& sr)
+		virtual bool Hit(const Ray& ray, Float& tMin, ShadeRec& sr) const
 		{
 			Vector3f temp = ray.o - position;
 			Float a = Dot(ray.d, ray.d); 
