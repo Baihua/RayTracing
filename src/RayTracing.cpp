@@ -22,7 +22,7 @@ int main()
 	world.RenderScene(colorData, w, h);
 	stbi_write_png("ret.png", w, h, 3, colorData, w * 3);
 	delete colorData;
-	//std::string st;
+	
 	//int width = 200;
 	//int heigth = 200;
 	//int chanle = 3;

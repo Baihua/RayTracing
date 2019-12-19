@@ -11,8 +11,8 @@ namespace BL
 		Float  r, g, b;
 		RGBColor() :r(0.f), g(0.f), b(0.f) {}
 		RGBColor(Float r, Float g, Float b) :r(r), g(g), b(b) {}
-		
-		RGBColor& operator=(const RGBColor c){
+
+		RGBColor& operator=(const RGBColor c) {
 			r = c.r; b = c.b; g = c.g;
 			return *this;
 		}
@@ -34,6 +34,16 @@ namespace BL
 			r *= a; g *= a; b *= a;
 			return *this;
 		}
+		RGBColor operator/(Float a)const {
+			a = 1 / a;
+			return RGBColor(a * r, a * g, a * b);
+		}
+
+		RGBColor& operator/=(Float a) {
+			a = 1 / a;
+			r *= a; g *= a; b *= a;
+			return *this;
+		}
 	};
 
 	RGBColor operator*(Float a, const RGBColor& c)
@@ -44,13 +54,17 @@ namespace BL
 	const RGBColor ColorBlack(0, 0, 0);
 	const RGBColor ColorWhite(1, 1, 1);
 	const RGBColor ColorRed(1, 0, 0);
+	const RGBColor ColorGreen(0, 1, 0);
+	const RGBColor ColorBlue(0, 0, 1);
+	const RGBColor ColorGray(0.5f, 0.5f, 0.5f);
+	const RGBColor ColorYellow(1, 1, 0);
 
 	class ShadeRec
 	{
 	public:
 		bool hitAnObject;
 		Point3f localHitPoint;
-		Noraml3f normal;
+		Normal3f normal;
 		RGBColor color;
 
 		ShadeRec() :hitAnObject(false), localHitPoint(), normal(), color() {

@@ -87,5 +87,5 @@ namespace BL
 		return std::abs(Dot(v1, v2));
 	}
 
-	typedef Normal3<Float> Noraml3f;
+	typedef Normal3<Float> Normal3f;
 }

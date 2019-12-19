@@ -17,10 +17,10 @@ namespace BL {
 	class Plane : public Shape
 	{
 	public:
-		Plane(const Point3f& p, const Noraml3f& n) :point(p), normal(n) {
+		Plane(const Point3f& p, const Normal3f& n) :point(p), normal(n) {
 		}
 
-		bool Hit(const Ray& ray, Float& tMin, ShadeRec& sr)
+		bool Hit(const Ray& ray, Float& tMin, ShadeRec& sr) const 
 		{
 			Float t = Dot((point - ray.o), normal) / Dot(ray.d, normal);
 			if (t > 0) {
@@ -35,7 +35,7 @@ namespace BL {
 		}
 	protected:
 		Point3f point;
-		Noraml3f normal;
+		Normal3f normal;
 	};
 
 	class Sphere : public Shape {
@@ -46,7 +46,7 @@ namespace BL {
 			Vector3f temp = ray.o - position;
 			Float a = Dot(ray.d, ray.d); 
 			Float b = 2 * Dot(temp, ray.d); 
-			Float c = Dot(temp, temp) - radious;
+			Float c = Dot(temp, temp) - radious* radious;
 			Float dis = b* b - 4 * a * c;
 			if (dis < 0.0)
 				return false;
@@ -58,7 +58,7 @@ namespace BL {
 				{
 					tMin = t;
 					Vector3f v = (temp + t * ray.d) / radious;
-					sr.normal = (Noraml3f)v;// (temp + t * ray.d) / radious;
+					sr.normal = (Normal3f)v;// (temp + t * ray.d) / radious;
 					sr.localHitPoint = ray.o + t * ray.d;
 					return true;
 				}
@@ -66,7 +66,7 @@ namespace BL {
 				if (t > 0)
 				{
 					tMin = t;
-					sr.normal = (Noraml3f)(temp + t * ray.d) / radious;
+					sr.normal = (Normal3f)(temp + t * ray.d) / radious;
 					sr.localHitPoint = ray.o + t * ray.d;
 					return true;
 				}
