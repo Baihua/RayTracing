@@ -13,9 +13,12 @@
 int main()
 {
 	
-	std::cout << "Hello World! honge edd test\n";
+
+	std::cout << "what is s , Hello World! honge edd test\n";
 
 	std::cout << "2Hello World! honge edd test\n";
+
+
 	BL::World world;
 	
 	world.Build();
