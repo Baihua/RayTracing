@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 namespace BL
 {
 	template <typename T>
@@ -25,5 +25,10 @@ namespace BL
 	{
 
 		return rand() / double(RAND_MAX);
+	}
+
+	static int randInt()
+	{
+		return rand();
 	}
 }

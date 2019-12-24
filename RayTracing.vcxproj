@@ -27,6 +27,7 @@
     <ClInclude Include="src\math\Point.h" />
     <ClInclude Include="src\math\Ray.h" />
     <ClInclude Include="src\math\Vector.h" />
+    <ClInclude Include="src\Sampler.h" />
     <ClInclude Include="src\ShadeRec.h" />
     <ClInclude Include="src\Shape\Shape.h" />
     <ClInclude Include="src\stb\stb_image_write.h" />

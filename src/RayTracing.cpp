@@ -9,25 +9,36 @@
 #include "math/Point.h"
 #include "Shape/Shape.h"
 #include "World.h"
+#include "Sampler.h"
+
+
 
 int main()
 {
-	
+
 
 	std::cout << "what is s , Hello World! honge edd test\n";
 
 	std::cout << "2Hello World! honge edd test\n";
 
-
+	//BL::Sampler* s = new BL::JitteredSampler(36,2);
+	//BL::Sampler* s = new BL::RandomSampler(36,2);
+	//BL::Sampler* s = new BL::NRooksSampler(36,2);
+	BL::Sampler* s = new BL::HammersleySampler(100, 2);
+	s->GenerateSamples();
+	//s->MapSamplesToUnitDisk();
+	//s->DebugToIntuition("hammersaley_s.bmp", false);
+	//s->DebugToIntuition("hammersaley_disk.bmp", true);
 	BL::World world;
-	
+	world.sampler = s;
 	world.Build();
 	unsigned char* colorData = NULL;
 	int size = 0, w = 0, h=0;
-	world.RenderScene(colorData, w, h);
-	stbi_write_png("ret.png", w, h, 3, colorData, w * 3);
-	delete colorData;
-	
+	//world.RenderScene();
+	world.RenderPerspective();
+	world.GetDisplayPixelData(colorData, w, h);
+	stbi_write_png("testOutput/pr_ret1.png", w, h, 3, colorData, w * 3);
+	colorData = NULL;
 	//int width = 200;
 	//int heigth = 200;
 	//int chanle = 3;
