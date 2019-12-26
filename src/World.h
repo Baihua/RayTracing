@@ -5,6 +5,8 @@
 #include "Shape/Shape.h"
 #include "Sampler.h"
 #include <vector>
+#include "Camera.h"
+
 namespace BL {
 	class World
 	{
@@ -16,7 +18,10 @@ namespace BL {
 		std::vector<Shape*> objects;
 		Sampler* sampler;
 		unsigned char* dislayPixelData;
+		Camera* camera;
+		
 		World() :dislayPixelData(NULL) {
+		
 		}
 		~World() {
 			if (dislayPixelData != NULL) {
@@ -29,6 +34,14 @@ namespace BL {
 			viewPlane.pixSize = 1.0f;
 			viewPlane.gamma = 1.0f;
 
+			camera = new BL::Pinhole();
+
+			camera->SetEyePosition(Vector3f(0,0,100));
+			camera->SetLookAt(Vector3f(0,0,0));
+			camera->SetUp(Vector3f(0, 1, 0));
+			camera->SetViewDistance(100);
+			camera->ComputeUVW();
+
 			backgroundColor = ColorBlack;
 			sphere = new Sphere(Point3f(-40, 0, 0), 40);
 			sphere->color = ColorBlue;
@@ -40,11 +53,12 @@ namespace BL {
 
 			Plane* p = new Plane(Point3f(0, 0, 0), Normal3f(0, 1, 1));
 			p->color = ColorGreen;
-			//objects.push_back(p);
+			objects.push_back(p);
 
 			if (dislayPixelData != NULL) {
 				delete[] dislayPixelData;
 			}
+
 			dislayPixelData = new unsigned char[viewPlane.height * viewPlane.width * 3];
 			memset(dislayPixelData, 0, viewPlane.height * viewPlane.width * 3);
 		}
@@ -65,22 +79,23 @@ namespace BL {
 		}
 
 		void RenderPerspective() {
-			RGBColor pixelColor;
-			Ray ray;
-			Float z = 100;
-			Float eye = 100;
-			ray.o = Point3f(0.0f, 0.0f, eye);
+			camera->RenderScene(this);
+			//RGBColor pixelColor;
+			//Ray ray;
+			//Float z = 100;
+			//Float eye = 100;
+			//ray.o = Point3f(0.0f, 0.0f, eye);
 
-			const int sampleNumPerPixer = 1;
-			int n = (int)sqrt(sampleNumPerPixer);
-			for (int h = 0; h < viewPlane.height; h++) {
-				for (int w = 0; w < viewPlane.width; w++) {
-					ray.d = Vector3f(w - 0.5f * viewPlane.width + 0.5f, h - 0.5f * viewPlane.height + 0.5f, -50);
-					ray.d.Normalize();
-					pixelColor = hitBareBonesObjects(ray).color;
-					displayPixel(h, w, pixelColor);
-				}
-			}
+			//const int sampleNumPerPixer = 1;
+			//int n = (int)sqrt(sampleNumPerPixer);
+			//for (int h = 0; h < viewPlane.height; h++) {
+			//	for (int w = 0; w < viewPlane.width; w++) {
+			//		ray.d = Vector3f(w - 0.5f * viewPlane.width + 0.5f, h - 0.5f * viewPlane.height + 0.5f, -50);
+			//		ray.d.Normalize();
+			//		pixelColor = hitBareBonesObjects(ray).color;
+			//		displayPixel(h, w, pixelColor);
+			//	}
+			//}
 		}
 
 		void GetDisplayPixelData(unsigned char*& data, int& width, int& height)const {

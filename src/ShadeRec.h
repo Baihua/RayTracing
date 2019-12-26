@@ -46,7 +46,7 @@ namespace BL
 		}
 	};
 
-	RGBColor operator*(Float a, const RGBColor& c)
+	static RGBColor operator*(Float a, const RGBColor& c)
 	{
 		return c * a;
 	}
