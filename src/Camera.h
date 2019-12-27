@@ -50,5 +50,13 @@ namespace BL {
 		virtual void RenderScene(World* world);
 	};
 
-
+	class ThinLen :public Camera {
+	public:
+		ThinLen(Float lenRaduis, Float FocuFar):lenRadius(lenRaduis), FocusPlenFar(FocuFar){}
+		virtual void RenderScene(World* world);
+		
+	private:
+		Float lenRadius;
+		Float FocusPlenFar; 
+	};
 }

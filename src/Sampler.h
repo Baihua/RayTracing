@@ -18,7 +18,12 @@ namespace BL {
 			}
 			return samples[jump + count++ % numSamples];
 		}
-
+		Point2f SampleUnitDisk() {
+			if (count % numSamples == 0) {
+				jump = (randInt() % numSets) * numSamples;
+			}
+			return diskSamples[jump + count++ % numSamples];
+		}
 		void MapSamplesToUnitDisk() {
 			diskSamples.reserve(samples.size());
 			Float r = 0;

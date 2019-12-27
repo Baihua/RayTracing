@@ -34,24 +34,31 @@ namespace BL {
 			viewPlane.pixSize = 1.0f;
 			viewPlane.gamma = 1.0f;
 
-			camera = new BL::Pinhole();
-
-			camera->SetEyePosition(Vector3f(0,0,100));
+			//camera = new BL::Pinhole();
+			camera = new ThinLen(2.0f, 300.0f);
+			
+			camera->SetEyePosition(Vector3f(0,40,100));
 			camera->SetLookAt(Vector3f(0,0,0));
 			camera->SetUp(Vector3f(0, 1, 0));
 			camera->SetViewDistance(100);
 			camera->ComputeUVW();
 
 			backgroundColor = ColorBlack;
-			sphere = new Sphere(Point3f(-40, 0, 0), 40);
+			sphere = new Sphere(Point3f(-40, 0, -20), 40);
 			sphere->color = ColorBlue;
 			objects.push_back(sphere);
 
-			sphere = new Sphere(Point3f(40, 0, 0), 40);
+
+			backgroundColor = ColorBlack;
+			sphere = new Sphere(Point3f(0, 0, -140), 40);
 			sphere->color = ColorRed;
 			objects.push_back(sphere);
 
-			Plane* p = new Plane(Point3f(0, 0, 0), Normal3f(0, 1, 1));
+			sphere = new Sphere(Point3f(80, 0, -260), 40);
+			sphere->color = ColorGray;
+			objects.push_back(sphere);
+
+			Plane* p = new Plane(Point3f(0, -50, 0), Normal3f(0, 100, 1));
 			p->color = ColorGreen;
 			objects.push_back(p);
 
@@ -80,6 +87,7 @@ namespace BL {
 
 		void RenderPerspective() {
 			camera->RenderScene(this);
+
 			//RGBColor pixelColor;
 			//Ray ray;
 			//Float z = 100;
