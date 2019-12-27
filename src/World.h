@@ -35,8 +35,8 @@ namespace BL {
 			viewPlane.gamma = 1.0f;
 
 			//camera = new BL::Pinhole();
-			camera = new ThinLen(2.0f, 300.0f);
-			
+			//camera = new ThinLen(2.0f, 300.0f);
+			camera = new Fisheye(180*Pi/180);
 			camera->SetEyePosition(Vector3f(0,40,100));
 			camera->SetLookAt(Vector3f(0,0,0));
 			camera->SetUp(Vector3f(0, 1, 0));

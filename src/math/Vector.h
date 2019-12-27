@@ -23,6 +23,11 @@ namespace BL
 			if (i == 0) return x;
 			return y;
 		}
+
+		T LengthSquared()const { return x * x + y * y; }
+
+		T Length() const { return std::sqrt(LengthSquared()); }
+
 	};
 
 	template<typename T> class Vector3

@@ -59,4 +59,13 @@ namespace BL {
 		Float lenRadius;
 		Float FocusPlenFar; 
 	};
+
+	class Fisheye :public Camera {
+	public:
+		Fisheye(Float psi):psiMax(psi){}
+		virtual void RenderScene(World* world);
+
+	private:
+		Float psiMax;//最大的角度
+	};
 }
