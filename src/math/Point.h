@@ -47,7 +47,13 @@ namespace BL
 			x -= v.x; y -= v.y; z -= v.z;
 			return *this;
 		}
+
+		explicit Point3<T>(const Vector3<T>& v) : x(v.x), y(v.y), z(v.z) {}
 	};
+
+	template <typename T> inline Point2<T> operator*(T s, const Point2<T>& p) {
+		return Point2<T>(p.x*s, p.y*s);
+	}
 
 	template<typename T> inline Float Distance(const Point3<T>& p1, const Point3<T>& p2)
 	{

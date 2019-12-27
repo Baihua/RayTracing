@@ -93,7 +93,7 @@ namespace BL
 
 		T Length() const { return std::sqrt(LengthSquared()); }
 
-		explicit Vector3(const Normal3<T>& n);
+		explicit Vector3(const Normal3<T>& n):x(n.x), y(n.y),z(n.z) {};
 	};
 
 	template <typename T> inline Vector3<T> operator*(T s, const Vector3<T>& v) {
