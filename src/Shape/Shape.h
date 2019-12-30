@@ -12,6 +12,7 @@ namespace BL {
 	public:
 		virtual bool Hit(const Ray& ray, Float& tMin, ShadeRec& sr) const = 0;
 		RGBColor color;
+		Material* material;
 	};
 
 	class Plane : public Shape

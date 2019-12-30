@@ -2,6 +2,7 @@
 #include "math/Point.h"
 #include "math/Normal.h"
 #include "Utility/Utility.h"
+#include "math/Ray.h"
 //#include "World.h"
 namespace BL
 {
@@ -34,6 +35,16 @@ namespace BL
 			r *= a; g *= a; b *= a;
 			return *this;
 		}
+
+		RGBColor operator*(const RGBColor& c)const {
+			return RGBColor(c.r * r, c.g * g, c.b * b);
+		}
+
+		RGBColor& operator*=(const RGBColor& c) {
+			r *= c.r; g *= c.g; b *= c.b;
+			return *this;
+		}
+
 		RGBColor operator/(Float a)const {
 			a = 1 / a;
 			return RGBColor(a * r, a * g, a * b);
@@ -63,13 +74,25 @@ namespace BL
 	{
 	public:
 		bool hitAnObject;
+		Material* material;
+		Point3f worldHitPoint;
 		Point3f localHitPoint;
 		Normal3f normal;
 		RGBColor color;
+		Ray ray;
+		int depth;                 //µ›πÈ…Ó∂»
+		Vector3f dir;              //for Area lights;
+		Float rayT;
 
-		ShadeRec() :hitAnObject(false), localHitPoint(), normal(), color() {
+		ShadeRec() :hitAnObject(false), material(NULL), localHitPoint(), normal(), color() {
 		}
-		ShadeRec(const ShadeRec& sr) : hitAnObject(sr.hitAnObject), localHitPoint(sr.localHitPoint), normal(sr.normal), color(sr.color) {
+		ShadeRec(const ShadeRec& sr) :
+			hitAnObject(sr.hitAnObject),
+			material(sr.material),
+			worldHitPoint(sr.worldHitPoint),
+			localHitPoint(sr.localHitPoint),
+			normal(sr.normal),
+			color(sr.color), ray(sr.ray), depth(sr.depth), rayT(sr.rayT) {
 		}
 
 		ShadeRec& operator= (const ShadeRec& sr) {

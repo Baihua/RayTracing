@@ -55,6 +55,10 @@ namespace BL
 		return Point2<T>(p.x*s, p.y*s);
 	}
 
+// 	template <typename T> inline Point3<T> operator-(const Point3<T>& p1, const Point3<T>& p2) {
+// 		return Point2<T>(p.x * s, p.y * s);
+// 	}
+
 	template<typename T> inline Float Distance(const Point3<T>& p1, const Point3<T>& p2)
 	{
 		return (p1 - p2).Length();

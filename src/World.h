@@ -6,7 +6,8 @@
 #include "Sampler.h"
 #include <vector>
 #include "Camera.h"
-
+#include "Light.h"
+#include "Material.h";
 namespace BL {
 	class World
 	{
@@ -14,53 +15,88 @@ namespace BL {
 	public:
 		ViewPlane viewPlane;
 		RGBColor backgroundColor;
-		Sphere* sphere;
 		std::vector<Shape*> objects;
 		Sampler* sampler;
 		unsigned char* dislayPixelData;
 		Camera* camera;
-		
+
+		Light* ambiant;
+		std::vector<Light*> lights;
+
 		World() :dislayPixelData(NULL) {
-		
+
 		}
 		~World() {
 			if (dislayPixelData != NULL) {
 				delete[] dislayPixelData;
 			}
 		}
+
+
+		void AddObject(Shape* shape) {
+			objects.push_back(shape);
+		}
+
+		void AddLight(Light* light) {
+			lights.push_back(light);
+		}
+
 		void Build(void) {
 			viewPlane.height = 200;
 			viewPlane.width = 200;
 			viewPlane.pixSize = 1.0f;
 			viewPlane.gamma = 1.0f;
 
-			//camera = new BL::Pinhole();
-			//camera = new ThinLen(2.0f, 300.0f);
-			camera = new Fisheye(180*Pi/180);
-			camera->SetEyePosition(Vector3f(0,40,100));
-			camera->SetLookAt(Vector3f(0,0,0));
+			//camera = new ThinLen(2.0f, 300.0f);0
+			//camera = new Fisheye(180 * Pi / 180);
+			camera = new BL::Pinhole();
+			camera->SetEyePosition(Vector3f(0, 40, 100));
+			camera->SetLookAt(Vector3f(0, 0, 0));
 			camera->SetUp(Vector3f(0, 1, 0));
 			camera->SetViewDistance(100);
 			camera->ComputeUVW();
 
 			backgroundColor = ColorBlack;
-			sphere = new Sphere(Point3f(-40, 0, -20), 40);
-			sphere->color = ColorBlue;
-			objects.push_back(sphere);
 
 
-			backgroundColor = ColorBlack;
+			Ambient* ambiant = new Ambient();
+			this->ambiant = ambiant;
+
+			PointLight* ptLight = new PointLight();
+			ptLight->SetPosition(Point3f(100, 50, 1500));
+			lights.push_back(ptLight);
+
+			Matte* matte = new Matte();
+			matte->SetKOfAmbient(0.25f);
+			matte->SetKOfDiffuse(0.65);
+			matte->SetCd(ColorBlue);
+			Sphere* sphere = new Sphere(Point3f(-40, 0, -20), 40);
+			AddObject(sphere);
+
+
+			matte = new Matte();
+			matte->SetKOfAmbient(0.25f);
+			matte->SetKOfDiffuse(0.65);
+			matte->SetCd(ColorRed);
 			sphere = new Sphere(Point3f(0, 0, -140), 40);
-			sphere->color = ColorRed;
-			objects.push_back(sphere);
+			sphere->material = matte;
+			AddObject(sphere);
 
+			matte = new Matte();
+			matte->SetKOfAmbient(0.25f);
+			matte->SetKOfDiffuse(0.65);
+			matte->SetCd(ColorGray);
 			sphere = new Sphere(Point3f(80, 0, -260), 40);
-			sphere->color = ColorGray;
-			objects.push_back(sphere);
+			sphere->material = matte;
+			AddObject(sphere);
 
+			matte = new Matte();
+			matte->SetKOfAmbient(0.25f);
+			matte->SetKOfDiffuse(0.65);
+			matte->SetCd(ColorGray);
 			Plane* p = new Plane(Point3f(0, -50, 0), Normal3f(0, 100, 1));
-			p->color = ColorGreen;
-			objects.push_back(p);
+			p->material = matte;
+			AddObject(p);
 
 			if (dislayPixelData != NULL) {
 				delete[] dislayPixelData;
@@ -87,23 +123,6 @@ namespace BL {
 
 		void RenderPerspective() {
 			camera->RenderScene(this);
-
-			//RGBColor pixelColor;
-			//Ray ray;
-			//Float z = 100;
-			//Float eye = 100;
-			//ray.o = Point3f(0.0f, 0.0f, eye);
-
-			//const int sampleNumPerPixer = 1;
-			//int n = (int)sqrt(sampleNumPerPixer);
-			//for (int h = 0; h < viewPlane.height; h++) {
-			//	for (int w = 0; w < viewPlane.width; w++) {
-			//		ray.d = Vector3f(w - 0.5f * viewPlane.width + 0.5f, h - 0.5f * viewPlane.height + 0.5f, -50);
-			//		ray.d.Normalize();
-			//		pixelColor = hitBareBonesObjects(ray).color;
-			//		displayPixel(h, w, pixelColor);
-			//	}
-			//}
 		}
 
 		void GetDisplayPixelData(unsigned char*& data, int& width, int& height)const {
@@ -134,6 +153,40 @@ namespace BL {
 			}
 			return sr;
 		}
+		
+		RGBColor GetTraceRayColor(const Ray& ray, const int depth = 1) const {
+			ShadeRec sr = HitObjects(ray);
+			if (sr.hitAnObject) {
+				sr.ray = ray;
+				return sr.material->Shade(sr);
+			}
+			else
+				return backgroundColor;
+		}
+
+		ShadeRec HitObjects(const Ray& ray) const {
+			ShadeRec sr;
+			sr.color = backgroundColor;
+			Float t, tMin = MaxFloat;
+			Normal3f normal;
+			Point3f localHitPoint;
+			for (int i = 0; i < objects.size(); i++) {
+				if (objects[i]->Hit(ray, t, sr) && t < tMin) {
+					sr.hitAnObject = true;
+					tMin = t;
+					sr.material = objects[i]->material;
+					if (sr.material == NULL)
+					{
+						printf("nllllllll");
+					}
+					sr.normal = sr.normal;
+					sr.localHitPoint = sr.localHitPoint;
+					sr.rayT = tMin;
+				}
+			}
+			return sr;
+		}
+
 	private:
 		RGBColor _GetColor(Ray& ray, int r, int c)
 		{
@@ -145,7 +198,7 @@ namespace BL {
 				return hitBareBonesObjects(ray).color;
 			}
 			int num = sampler->GetNumSamples();
-			RGBColor pixelColor ;
+			RGBColor pixelColor;
 			for (int i = 0; i < num; i++) {
 				Point2f p = sampler->SampleUnitSquare();
 				Float x = viewPlane.pixSize * (c - 0.5f * viewPlane.width + p.x);
@@ -155,43 +208,7 @@ namespace BL {
 			}
 			return pixelColor / num;
 		}
-
-		//RGBColor _RegularSampling(Ray& ray, int r, int c, int num) {
-		//	RGBColor pixelColor = ColorBlack;
-		//	for (int p = 0; p < num; p++) {
-		//		for (int q = 0; q < num; q++) {
-		//			Float x = viewPlane.pixSize * (c - 0.5f * viewPlane.width + (p + 0.5) / num);
-		//			Float y = viewPlane.pixSize * (r - 0.5f * viewPlane.height + (q + 0.5) / num);
-		//			ray.o = Point3f(x, y, 100);
-		//			pixelColor += hitBareBonesObjects(ray).color;
-		//		}
-		//	}
-		//	return pixelColor / (num * num);
-		//}
-
-		//RGBColor _RandSampling(Ray& ray, int r, int c, int num) {
-		//	RGBColor pixelColor = ColorBlack;
-		//	for (int p = 0; p < num; p++) {
-		//		Float x = viewPlane.pixSize * (c - 0.5f * viewPlane.width + rand_float());
-		//		Float y = viewPlane.pixSize * (r - 0.5f * viewPlane.height + rand_float());
-		//		ray.o = Point3f(x, y, 100);
-		//		pixelColor += hitBareBonesObjects(ray).color;
-		//	}
-
-		//	return pixelColor / num;
-		//}
-
-		//RGBColor _JitteredSampling(Ray& ray, int r, int c, int num) {
-		//	RGBColor pixelColor = ColorBlack;
-		//	for (int p = 0; p < num; p++) {
-		//		for (int q = 0; q < num; q++) {
-		//			Float x = viewPlane.pixSize * (c - 0.5f * viewPlane.width + (p + rand_float()) / num);
-		//			Float y = viewPlane.pixSize * (r - 0.5f * viewPlane.height + (q + rand_float()) / num);
-		//			ray.o = Point3f(x, y, 100);
-		//			pixelColor += hitBareBonesObjects(ray).color;
-		//		}
-		//	}
-		//	return pixelColor / (num * num);
-		//}
 	};
+
+	static World* GetWorldPtr = new World();
 }

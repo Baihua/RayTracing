@@ -19,13 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\BRDF.cpp" />
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Light.cpp" />
+    <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\RayTracing.cpp" />
     <ClCompile Include="src\Sampler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\bl.h" />
+    <ClInclude Include="src\BRDF.h" />
     <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\Light.h" />
+    <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\math\Normal.h" />
     <ClInclude Include="src\math\Point.h" />
     <ClInclude Include="src\math\Ray.h" />

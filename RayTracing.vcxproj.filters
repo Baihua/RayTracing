@@ -36,6 +36,15 @@
     <ClCompile Include="src\Sampler.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\BRDF.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Light.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Material.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stb\stb_image_write.h">
@@ -75,6 +84,15 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Camera.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BRDF.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Material.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Light.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -21,7 +21,8 @@ namespace BL {
 					Float y = r - 0.5f * height + samplerPoint.y;
 					ray.d = x * u + y * v - d * w;
 					ray.d.Normalize();
-					color += world->hitBareBonesObjects(ray).color;
+					//color += world->hitBareBonesObjects(ray).color;
+					color += world->GetTraceRayColor(ray,0);
 				}
 				color /= numSamples;
 				world->displayPixel(r, c, color);
