@@ -18,7 +18,7 @@ namespace BL {
 	class Plane : public Shape
 	{
 	public:
-		Plane(const Point3f& p, const Normal3f& n) :point(p), normal(n) {
+		Plane(const Point3f& p, const Normal3f& n) :point(p), normal(Normalize(n)) {
 		}
 
 		bool Hit(const Ray& ray, Float& tMin, ShadeRec& sr) const 
@@ -28,6 +28,8 @@ namespace BL {
 				tMin = t;
 				sr.localHitPoint = ray.o + ray.d * t;
 				sr.hitAnObject = true;
+				sr.normal = normal;
+				sr.material = material;
 			}
 			else {
 				return false;
@@ -61,6 +63,7 @@ namespace BL {
 					Vector3f v = (temp + t * ray.d) / radious;
 					sr.normal = (Normal3f)v;// (temp + t * ray.d) / radious;
 					sr.localHitPoint = ray.o + t * ray.d;
+					sr.material = material;
 					return true;
 				}
 				t = (-b + e) / (2 * a);
@@ -69,6 +72,7 @@ namespace BL {
 					tMin = t;
 					sr.normal = (Normal3f)(temp + t * ray.d) / radious;
 					sr.localHitPoint = ray.o + t * ray.d;
+					sr.material = material;
 					return true;
 				}
 			}

@@ -30,7 +30,7 @@ namespace BL {
 			Vector3f wi = GetWorldPtr->lights[i]->GetDirection(sr);
 			Float ndotWi = Dot(sr.normal, wi);
 			if (ndotWi > 0.0)
-				L += diffuseBRDF->F(sr, wo, wi) * GetWorldPtr->lights[i]->L(sr) * ndotWi;
+				L += diffuseBRDF->F(sr, wo, wi) * GetWorldPtr->lights[i]->L(sr)*ndotWi;
 		}
 		return L;
 	}

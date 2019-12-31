@@ -31,6 +31,7 @@ namespace BL {
 
 	class PointLight : public Light {
 	public:
+		PointLight():ls(1.0), color(ColorWhite){}
 		virtual Vector3f GetDirection(ShadeRec& sr) {
 			return (location - sr.localHitPoint).Normalize();
 		}
@@ -38,8 +39,13 @@ namespace BL {
 		virtual RGBColor L(ShadeRec& sr) {
 			return (ls * color);
 		}
+
 		void SetPosition(Point3f p) {
 			location = p;
+		}
+
+		void SetScaleRadiance(Float ls) {
+			this->ls = ls;
 		}
 
 	private:

@@ -86,6 +86,9 @@ namespace BL
 	template<typename T> inline T AbsDot(const Vector3<T>& v1, const Normal3<T>& v2) {
 		return std::abs(Dot(v1, v2));
 	}
-
+	template <typename T> inline Normal3<T> Normalize(const Normal3<T>& v)
+	{
+		return v / v.Length();
+	}
 	typedef Normal3<Float> Normal3f;
 }

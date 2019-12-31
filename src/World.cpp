@@ -28,7 +28,8 @@ namespace BL {
 		SetAmbiant(new Ambient());
 
 		PointLight* ptLight = new PointLight();
-		ptLight->SetPosition(Point3f(100, 50, 1500));
+		ptLight->SetPosition(Point3f(100, 50, 150));
+		ptLight->SetScaleRadiance(3.0f);
 		lights.push_back(ptLight);
 
 		Matte* matte = new Matte();

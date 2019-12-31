@@ -35,7 +35,6 @@ int main()
 
 	unsigned char* colorData = NULL;
 	int size = 0, w = 0, h=0;
-	//world.RenderScene();
 	BL::GetWorldPtr->RenderPerspective();
 	BL::GetWorldPtr->GetDisplayPixelData(colorData, w, h);
 	stbi_write_png("testOutput/out.png", w, h, 3, colorData, w * 3);

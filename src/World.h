@@ -113,20 +113,25 @@ namespace BL {
 			sr.color = backgroundColor;
 			Float t, tMin = MaxFloat;
 			Normal3f normal;
+			Material* mat = NULL;
 			Point3f localHitPoint;
 			for (int i = 0; i < objects.size(); i++) {
 				if (objects[i]->Hit(ray, t, sr) && t < tMin) {
 					sr.hitAnObject = true;
+					
 					tMin = t;
-					sr.material = objects[i]->material;
-					if (sr.material == NULL)
-					{
-						printf("nllllllll");
-					}
-					sr.normal = sr.normal;
-					sr.localHitPoint = sr.localHitPoint;
-					sr.rayT = tMin;
+					normal = sr.normal;
+					mat = sr.material;
+					localHitPoint = sr.localHitPoint;
 				}
+			}
+			if (sr.hitAnObject)
+			{
+				sr.ray = ray;
+				sr.localHitPoint = localHitPoint;
+				sr.rayT = tMin;
+				sr.normal = normal;
+				sr.material = mat;
 			}
 			return sr;
 		}
@@ -134,7 +139,6 @@ namespace BL {
 	private:
 		static World* instance;
 		World() :dislayPixelData(NULL) {
-			printf("fk world!\n");
 		}
 
 		RGBColor _GetColor(Ray& ray, int r, int c)
