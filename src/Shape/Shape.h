@@ -32,7 +32,7 @@ namespace BL {
 			else {
 				return false;
 			}
-
+			return true;
 		}
 	protected:
 		Point3f point;

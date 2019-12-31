@@ -3,7 +3,6 @@
 #include "math/Normal.h"
 #include "Utility/Utility.h"
 #include "math/Ray.h"
-//#include "World.h"
 namespace BL
 {
 	class RGBColor

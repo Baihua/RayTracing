@@ -1,8 +1,6 @@
 #pragma once
 #include "math/Vector.h"
 #include "math/Point.h"
-
-//#include "ShadeRec.h"
 #include "math/Ray.h"
 
 namespace BL {

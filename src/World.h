@@ -1,11 +1,14 @@
 #pragma once
+#ifndef __World_H__
+#define __World_H__
+
+
 #include "ViewPlane.h"
 #include "math/Normal.h"
 #include "ShadeRec.h"
 #include "Shape/Shape.h"
 #include "Sampler.h"
 #include <vector>
-#include "Camera.h"
 #include "Light.h"
 #include "Material.h";
 namespace BL {
@@ -20,18 +23,24 @@ namespace BL {
 		unsigned char* dislayPixelData;
 		Camera* camera;
 
-		Light* ambiant;
+		Ambient* ambiant;
 		std::vector<Light*> lights;
 
-		World() :dislayPixelData(NULL) {
+		static World* GetInstance();
 
-		}
 		~World() {
 			if (dislayPixelData != NULL) {
 				delete[] dislayPixelData;
 			}
 		}
 
+		Ambient* GetAmbient() {
+			return ambiant;
+		}
+
+		void SetAmbiant(Ambient* ambient) {
+			this->ambiant = ambient;
+		}
 
 		void AddObject(Shape* shape) {
 			objects.push_back(shape);
@@ -41,70 +50,7 @@ namespace BL {
 			lights.push_back(light);
 		}
 
-		void Build(void) {
-			viewPlane.height = 200;
-			viewPlane.width = 200;
-			viewPlane.pixSize = 1.0f;
-			viewPlane.gamma = 1.0f;
-
-			//camera = new ThinLen(2.0f, 300.0f);0
-			//camera = new Fisheye(180 * Pi / 180);
-			camera = new BL::Pinhole();
-			camera->SetEyePosition(Vector3f(0, 40, 100));
-			camera->SetLookAt(Vector3f(0, 0, 0));
-			camera->SetUp(Vector3f(0, 1, 0));
-			camera->SetViewDistance(100);
-			camera->ComputeUVW();
-
-			backgroundColor = ColorBlack;
-
-
-			Ambient* ambiant = new Ambient();
-			this->ambiant = ambiant;
-
-			PointLight* ptLight = new PointLight();
-			ptLight->SetPosition(Point3f(100, 50, 1500));
-			lights.push_back(ptLight);
-
-			Matte* matte = new Matte();
-			matte->SetKOfAmbient(0.25f);
-			matte->SetKOfDiffuse(0.65);
-			matte->SetCd(ColorBlue);
-			Sphere* sphere = new Sphere(Point3f(-40, 0, -20), 40);
-			AddObject(sphere);
-
-
-			matte = new Matte();
-			matte->SetKOfAmbient(0.25f);
-			matte->SetKOfDiffuse(0.65);
-			matte->SetCd(ColorRed);
-			sphere = new Sphere(Point3f(0, 0, -140), 40);
-			sphere->material = matte;
-			AddObject(sphere);
-
-			matte = new Matte();
-			matte->SetKOfAmbient(0.25f);
-			matte->SetKOfDiffuse(0.65);
-			matte->SetCd(ColorGray);
-			sphere = new Sphere(Point3f(80, 0, -260), 40);
-			sphere->material = matte;
-			AddObject(sphere);
-
-			matte = new Matte();
-			matte->SetKOfAmbient(0.25f);
-			matte->SetKOfDiffuse(0.65);
-			matte->SetCd(ColorGray);
-			Plane* p = new Plane(Point3f(0, -50, 0), Normal3f(0, 100, 1));
-			p->material = matte;
-			AddObject(p);
-
-			if (dislayPixelData != NULL) {
-				delete[] dislayPixelData;
-			}
-
-			dislayPixelData = new unsigned char[viewPlane.height * viewPlane.width * 3];
-			memset(dislayPixelData, 0, viewPlane.height * viewPlane.width * 3);
-		}
+		void Build(void);
 
 		void RenderScene() {
 			RGBColor pixelColor;
@@ -121,9 +67,7 @@ namespace BL {
 			}
 		}
 
-		void RenderPerspective() {
-			camera->RenderScene(this);
-		}
+		void RenderPerspective();
 
 		void GetDisplayPixelData(unsigned char*& data, int& width, int& height)const {
 			data = dislayPixelData;
@@ -188,6 +132,11 @@ namespace BL {
 		}
 
 	private:
+		static World* instance;
+		World() :dislayPixelData(NULL) {
+			printf("fk world!\n");
+		}
+
 		RGBColor _GetColor(Ray& ray, int r, int c)
 		{
 			if (sampler == NULL)
@@ -210,5 +159,8 @@ namespace BL {
 		}
 	};
 
-	static World* GetWorldPtr = new World();
+
+	
+#define GetWorldPtr  World::GetInstance()
 }
+#endif//__World_H__

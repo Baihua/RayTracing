@@ -7,10 +7,9 @@
 #include "math/Vector.h"
 #include "math/Point.h"
 #include "Shape/Shape.h"
-#include "World.h"
 #include "Sampler.h"
 #include "Camera.h"
-
+#include "World.h"
 
 
 int main()
