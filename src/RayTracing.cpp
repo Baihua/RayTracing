@@ -37,6 +37,6 @@ int main()
 	int size = 0, w = 0, h=0;
 	BL::GetWorldPtr->RenderPerspective();
 	BL::GetWorldPtr->GetDisplayPixelData(colorData, w, h);
-	stbi_write_png("testOutput/spe.png", w, h, 3, colorData, w * 3);
+	stbi_write_png("testOutput/shadow.png", w, h, 3, colorData, w * 3);
 	colorData = NULL;
 }

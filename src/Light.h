@@ -9,6 +9,17 @@ namespace BL {
 		~Light() {};
 		virtual Vector3f GetDirection(ShadeRec& sr) = 0;
 		virtual RGBColor L(ShadeRec& sr) = 0;
+		
+		virtual bool InShaodws(const Ray& ray, const ShadeRec& sr)const {
+			return false;
+		}
+
+		bool CastShadows() {
+			return shadows;
+		}
+		void SetCastShadows(bool shadows) {
+			this->shadows = shadows;
+		}
 	protected:
 		bool shadows;
 	};
@@ -27,6 +38,7 @@ namespace BL {
 	private:
 		Float ls;
 		RGBColor color;
+		
 	};
 
 	class PointLight : public Light {
@@ -47,6 +59,8 @@ namespace BL {
 		void SetScaleRadiance(Float ls) {
 			this->ls = ls;
 		}
+
+		virtual bool InShaodws(const Ray& ray, const ShadeRec& sr)const;
 
 	private:
 		Float    ls;

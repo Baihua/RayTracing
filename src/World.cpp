@@ -28,8 +28,9 @@ namespace BL {
 		SetAmbiant(new Ambient());
 
 		PointLight* ptLight = new PointLight();
-		ptLight->SetPosition(Point3f(100, 150, 150));
+		ptLight->SetPosition(Point3f(100, 200, -20));
 		ptLight->SetScaleRadiance(3.0f);
+		ptLight->SetCastShadows(true);
 		lights.push_back(ptLight);
 
 		Phong* phong = new Phong();
@@ -59,12 +60,15 @@ namespace BL {
 		sphere->material = matte;
 		AddObject(sphere);
 
-		matte = new Matte();
-		matte->SetKOfAmbient(0.25f);
-		matte->SetKOfDiffuse(0.65);
-		matte->SetCd(ColorGreen);
+
+		phong = new Phong();
+		phong->SetKOfAmbient(0.25f);
+		phong->SetKOfDiffuse(0.65);
+		phong->SetKOfSpecular(0.1);
+		phong->SetColor(ColorGreen);
+		phong->SetExp(2);
 		Plane* p = new Plane(Point3f(0, -50, 0), Normal3f(0, 100, 1));
-		p->material = matte;
+		p->material = phong;
 		AddObject(p);
 
 		if (dislayPixelData != NULL) {

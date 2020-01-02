@@ -36,20 +36,29 @@ namespace BL {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	Phong::Phong():ambientBRDF(new Lambertian), diffuseBRDF(new Lambertian),specularBRDF(new GlossySpeecular){}
+	Phong::Phong() :ambientBRDF(new Lambertian), diffuseBRDF(new Lambertian), specularBRDF(new GlossySpeecular) {}
 	RGBColor Phong::Shade(ShadeRec& sr)
 	{
 		Vector3f wo = -sr.ray.d;
 		Light* a = GetWorldPtr->GetAmbient();
-		RGBColor L;// = ambientBRDF->Rho(sr, wo) * GetWorldPtr->ambiant->L(sr);
+		RGBColor L = ambientBRDF->Rho(sr, wo) * GetWorldPtr->ambiant->L(sr);
 		int lightsNum = GetWorldPtr->lights.size();
 		for (auto i = 0; i < lightsNum; i++)
 		{
-			Vector3f wi = GetWorldPtr->lights[i]->GetDirection(sr);
-			float l = sr.normal.LengthSquared();
-			Float ndotWi = Dot(sr.normal, wi);
-			if (ndotWi > 0.0)
-				L += (diffuseBRDF->F(sr, wi, wo) +  specularBRDF->F(sr, wi, wo)) * GetWorldPtr->lights[i]->L(sr) * ndotWi;
+			Light* light = GetWorldPtr->lights[i];
+			Vector3f wi = light->GetDirection(sr);
+			bool inShadows = false;
+			if (light->CastShadows())
+			{
+				Ray shadowR(sr.localHitPoint, wi);
+				inShadows = light->InShaodws(shadowR, sr);
+			}
+			if (!inShadows)
+			{
+				Float ndotWi = Dot(sr.normal, wi);
+				if (ndotWi > 0.0)
+					L += (diffuseBRDF->F(sr, wi, wo) + specularBRDF->F(sr, wi, wo)) * GetWorldPtr->lights[i]->L(sr) * ndotWi;
+			}
 		}
 		return L;
 	}
@@ -59,7 +68,7 @@ namespace BL {
 	void Phong::SetKOfDiffuse(const Float k) {
 		diffuseBRDF->SetK(k);
 	}
-	void Phong::SetKOfSpecular(const Float k){
+	void Phong::SetKOfSpecular(const Float k) {
 		specularBRDF->SetK(k);
 	}
 	void Phong::SetExp(const Float exp) {
