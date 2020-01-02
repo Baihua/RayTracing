@@ -28,20 +28,22 @@ namespace BL {
 		SetAmbiant(new Ambient());
 
 		PointLight* ptLight = new PointLight();
-		ptLight->SetPosition(Point3f(100, 50, 150));
+		ptLight->SetPosition(Point3f(100, 150, 150));
 		ptLight->SetScaleRadiance(3.0f);
 		lights.push_back(ptLight);
 
-		Matte* matte = new Matte();
-		matte->SetKOfAmbient(0.25f);
-		matte->SetKOfDiffuse(0.65);
-		matte->SetCd(ColorBlue);
+		Phong* phong = new Phong();
+		phong->SetKOfAmbient(0.25f);
+		phong->SetKOfDiffuse(0.65);
+		phong->SetKOfSpecular(0.1);
+		phong->SetColor(ColorBlue);
+		phong->SetExp(2);
 		Sphere* sphere = new Sphere(Point3f(-40, 0, -20), 40);
-		sphere->material = matte;
+		sphere->material = phong;
 		AddObject(sphere);
 
 
-		matte = new Matte();
+		Matte* matte = new Matte();
 		matte->SetKOfAmbient(0.25f);
 		matte->SetKOfDiffuse(0.65);
 		matte->SetCd(ColorRed);

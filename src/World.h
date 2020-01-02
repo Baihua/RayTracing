@@ -78,8 +78,9 @@ namespace BL {
 		void openWindow(const int w, int h) {
 		}
 
-		void displayPixel(const int row, const int column, const RGBColor& pixelColor) {
+		void displayPixel(const int row, const int column, RGBColor& pixelColor) {
 			int p = (viewPlane.height - 1 - row) * (3 * viewPlane.width) + 3 * column;
+			pixelColor.Clamp();
 			dislayPixelData[p] = pixelColor.r * 255.9f;
 			dislayPixelData[p + 1] = pixelColor.g * 255.9f;
 			dislayPixelData[p + 2] = pixelColor.b * 255.9f;

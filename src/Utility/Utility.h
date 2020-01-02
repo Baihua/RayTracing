@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <stdlib.h>
+#include <algorithm>
 namespace BL
 {
 	template <typename T>
@@ -18,8 +19,8 @@ namespace BL
 	class Material;
 
 	class BRDF;
-
 	class Lambertian;
+	class GlossySpeecular;
 
 	class Ray;
 
@@ -45,5 +46,11 @@ namespace BL
 	static int randInt()
 	{
 		return rand();
+	}
+
+	static Float Clamp01(Float v) {
+		if(v < 0.0) return 0.0;
+		if (v > 1.0) return 1.0;
+		return v;
 	}
 }

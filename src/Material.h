@@ -7,7 +7,7 @@ namespace BL {
 		virtual RGBColor AreaLightShade(ShadeRec& sr) {
 			return ColorBlack;
 		};
-		
+
 		virtual RGBColor PathShade(ShadeRec& sr) {
 			return ColorBlack;
 		};
@@ -23,5 +23,20 @@ namespace BL {
 	private:
 		Lambertian* ambientBRDF;
 		Lambertian* diffuseBRDF;
+	};
+
+	class Phong : public Material {
+	public:
+		Phong();
+		virtual RGBColor Shade(ShadeRec& sr);
+		void SetKOfAmbient(const Float k);
+		void SetKOfDiffuse(const Float k);
+		void SetKOfSpecular(const Float k);
+		void SetExp(const Float exp);
+		void SetColor(const RGBColor& c);
+	protected:
+		Lambertian* ambientBRDF;
+		Lambertian* diffuseBRDF;
+		GlossySpeecular* specularBRDF;
 	};
 }

@@ -54,6 +54,13 @@ namespace BL
 			r *= a; g *= a; b *= a;
 			return *this;
 		}
+
+		RGBColor& Clamp() {
+			r = Clamp01(r);
+			g = Clamp01(g);
+			b = Clamp01(b);
+			return *this;
+		}
 	};
 
 	static RGBColor operator*(Float a, const RGBColor& c)
@@ -97,9 +104,14 @@ namespace BL
 		ShadeRec& operator= (const ShadeRec& sr) {
 			if (this != &sr) {
 				hitAnObject = sr.hitAnObject;
+				material = sr.material;
+				worldHitPoint = sr.worldHitPoint;
 				localHitPoint = sr.localHitPoint;
 				normal = sr.normal;
 				color = sr.color;
+				ray = sr.ray;
+				depth = sr.depth;
+				rayT = sr.rayT;
 			}
 			return *this;
 		}
