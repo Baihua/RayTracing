@@ -1,5 +1,4 @@
 #pragma once
-//#include"../bl.h"
 #include"../math/Ray.h"
 #include"../math/Normal.h"
 #include "../ShadeRec.h"
@@ -25,7 +24,7 @@ namespace BL {
 		bool Hit(const Ray& ray, Float& tMin, ShadeRec& sr) const 
 		{
 			Float t = Dot((point - ray.o), normal) / Dot(ray.d, normal);
-			if (t > 0) {
+			if (t > kEpsilon) {
 				tMin = t;
 				sr.localHitPoint = ray.o + ray.d * t;
 				sr.hitAnObject = true;
@@ -41,7 +40,7 @@ namespace BL {
 		bool HitTest(const Ray& ray, Float& tMin) const
 		{
 			Float t = Dot((point - ray.o), normal) / Dot(ray.d, normal);
-			if (t > 0) {
+			if (t > kEpsilon) {
 				tMin = t;
 				return true;
 			}
@@ -51,7 +50,7 @@ namespace BL {
 			return true;
 		}
 	protected:
-		//static  Float kEpsilon;
+		static  const Float kEpsilon;
 		Point3f point;
 		Normal3f normal;
 	};
@@ -72,7 +71,7 @@ namespace BL {
 			{
 				Float e = sqrt(dis);
 				Float t = (-b - e) / (2 * a);
-				if (t > 0)
+				if (t > kEpsilon)
 				{
 					tMin = t;
 					Vector3f v = (temp + t * ray.d) / radious;
@@ -82,7 +81,7 @@ namespace BL {
 					return true;
 				}
 				t = (-b + e) / (2 * a);
-				if (t > 0)
+				if (t > kEpsilon)
 				{
 					tMin = t;
 					sr.normal = (Normal3f)(temp + t * ray.d) / radious;
@@ -106,13 +105,13 @@ namespace BL {
 			{
 				Float e = sqrt(dis);
 				Float t = (-b - e) / (2 * a);
-				if (t > 0)
+				if (t > kEpsilon)
 				{
 					tMin = t;
 					return true;
 				}
 				t = (-b + e) / (2 * a);
-				if (t > 0)
+				if (t > kEpsilon)
 				{
 					tMin = t;
 					return true;
@@ -121,6 +120,7 @@ namespace BL {
 			return false;
 		}
 	protected:
+		static  const Float kEpsilon;
 		Point3f position;
 		Float radious;
 	};

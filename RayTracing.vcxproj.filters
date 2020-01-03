@@ -51,6 +51,9 @@
     <ClCompile Include="src\Shape\Shape.cpp">
       <Filter>src\Shape</Filter>
     </ClCompile>
+    <ClCompile Include="src\bl.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stb\stb_image_write.h">

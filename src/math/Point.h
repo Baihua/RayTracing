@@ -63,6 +63,7 @@ namespace BL
 	{
 		return (p1 - p2).Length();
 	}
+
 	template<typename T> inline Float Distance(const Point2<T>& p1, const Point3<T>& p2)
 	{
 		return (p1 - p2).Length();
