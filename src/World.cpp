@@ -25,7 +25,13 @@ namespace BL {
 
 		backgroundColor = ColorBlack;
 
-		SetAmbiant(new Ambient());
+		
+		AmbientOccluder* a = new AmbientOccluder();
+		Sampler* s = new JitteredSampler(SampleNumPerPixes, 2);//采样数需要和每个像素采样次数一致。
+		s->GenerateSamples();
+		a->SetSampler(s);
+		a->SetMinAmount(1);
+		SetAmbiant(a);
 
 		PointLight* ptLight = new PointLight();
 		ptLight->SetPosition(Point3f(100, 200, -20));

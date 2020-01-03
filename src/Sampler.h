@@ -12,6 +12,13 @@ namespace BL {
 
 		void ShuffleSamples() {}
 
+		Point3f SamplerHemisphere() {
+			if (count % numSamples == 0) {
+				jump = (randInt() % numSets) * numSamples;
+			}
+			return hemisphereSamples[jump + count++ % numSamples];
+		}
+
 		Point2f SampleUnitSquare() {
 			if (count % numSamples == 0) {
 				jump = (randInt() % numSets) * numSamples;

@@ -23,7 +23,8 @@ namespace BL {
 		unsigned char* dislayPixelData;
 		Camera* camera;
 
-		Ambient* ambiant;
+		Light* ambiant;
+
 		std::vector<Light*> lights;
 
 		static World* GetInstance();
@@ -34,11 +35,11 @@ namespace BL {
 			}
 		}
 
-		Ambient* GetAmbient() {
+		Light* GetAmbient() {
 			return ambiant;
 		}
 
-		void SetAmbiant(Ambient* ambient) {
+		void SetAmbiant(Light* ambient) {
 			this->ambiant = ambient;
 		}
 

@@ -18,7 +18,7 @@ namespace BL {
 	class Normal3;
 	class World;
 
-	
+	class Sampler;
 
 	class Material;
 
@@ -41,10 +41,10 @@ namespace BL {
 	static Float MaxFloat = std::numeric_limits<Float>::max();
 	static Float Infinity = std::numeric_limits<Float>::infinity();
 
+	static int SampleNumPerPixes = 168;
 
 	static float rand_float()
 	{
-
 		return rand() / double(RAND_MAX);
 	}
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "math/Vector.h"
 #include "ShadeRec.h"
+#include "bl.h"
 namespace BL {
 	class Light
 	{
@@ -40,7 +41,7 @@ namespace BL {
 		RGBColor color;
 		
 	};
-
+	//////////////////////////////////////////////////////////////////////////
 	class PointLight : public Light {
 	public:
 		PointLight():ls(1.0), color(ColorWhite){}
@@ -66,5 +67,24 @@ namespace BL {
 		Float    ls;
 		RGBColor color;
 		Point3f  location;
+	};
+	//////////////////////////////////////////////////////////////////////////
+	class AmbientOccluder: public Light
+	{
+	public:
+		AmbientOccluder():ls(1), color(ColorWhite) {};
+		virtual Vector3f GetDirection(ShadeRec& sr);
+		virtual RGBColor L(ShadeRec& sr);
+		virtual bool InShaodws(const Ray& ray, const ShadeRec& sr)const;
+		void SetSampler(Sampler* s);
+		void SetMinAmount(Float v) {
+			minAmount = v;
+		}
+	private:
+		Vector3f u, v, w;
+		Sampler* sampler;
+		float minAmount;
+		Float ls;
+		RGBColor color;
 	};
 }

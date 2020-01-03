@@ -40,7 +40,6 @@ namespace BL {
 	RGBColor Phong::Shade(ShadeRec& sr)
 	{
 		Vector3f wo = -sr.ray.d;
-		Light* a = GetWorldPtr->GetAmbient();
 		RGBColor L = ambientBRDF->Rho(sr, wo) * GetWorldPtr->ambiant->L(sr);
 		int lightsNum = GetWorldPtr->lights.size();
 		for (auto i = 0; i < lightsNum; i++)
