@@ -12,6 +12,9 @@
 #include "Light.h"
 #include "Material.h";
 namespace BL {
+
+//#define  AREALIGHT_TRACE
+
 	class World
 	{
 
@@ -104,7 +107,12 @@ namespace BL {
 			ShadeRec sr = HitObjects(ray);
 			if (sr.hitAnObject) {
 				sr.ray = ray;
+#ifdef AREALIGHT_TRACE
+				return sr.material->AreaLightShade(sr);
+#else
 				return sr.material->Shade(sr);
+#endif // AREALIGHT_TRACE
+
 			}
 			else
 				return backgroundColor;

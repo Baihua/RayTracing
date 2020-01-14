@@ -54,6 +54,9 @@
     <ClCompile Include="src\bl.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\AreaLight.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stb\stb_image_write.h">
@@ -102,6 +105,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Light.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AreaLight.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

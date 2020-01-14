@@ -11,6 +11,11 @@ namespace BL {
 		virtual RGBColor PathShade(ShadeRec& sr) {
 			return ColorBlack;
 		};
+
+		//×Ô·¢¹â
+		virtual RGBColor Le(ShadeRec& sr) {
+			return ColorBlack;
+		}
 	};
 
 	class Matte :public Material {
@@ -20,6 +25,7 @@ namespace BL {
 		void SetKOfDiffuse(const Float k);
 		void SetCd(const RGBColor& c);
 		virtual RGBColor Shade(ShadeRec& sr);
+		virtual RGBColor AreaLightShade(ShadeRec& sr);
 	private:
 		Lambertian* ambientBRDF;
 		Lambertian* diffuseBRDF;
@@ -29,6 +35,7 @@ namespace BL {
 	public:
 		Phong();
 		virtual RGBColor Shade(ShadeRec& sr);
+		virtual RGBColor AreaLightShade(ShadeRec& sr);
 		void SetKOfAmbient(const Float k);
 		void SetKOfDiffuse(const Float k);
 		void SetKOfSpecular(const Float k);
@@ -38,5 +45,21 @@ namespace BL {
 		Lambertian* ambientBRDF;
 		Lambertian* diffuseBRDF;
 		GlossySpeecular* specularBRDF;
+	};
+
+	class Emissive :public Material {
+	public:
+		Emissive();
+		RGBColor Shade(ShadeRec& sr);
+		RGBColor AreaLightShade(ShadeRec& sr);
+		virtual RGBColor GetLe(ShadeRec& sr) const;
+		
+		void SetScaleRadiance(const Float ls);
+		void SetColor(const RGBColor& color);
+		
+	
+	private:
+		Float ls;
+		RGBColor color;
 	};
 }

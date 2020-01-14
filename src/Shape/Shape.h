@@ -9,10 +9,22 @@ namespace BL {
 
 	class Shape {
 	public:
+		Shape() :color(ColorBlack), material(NULL) {}
 		virtual bool Hit(const Ray& ray, Float& tMin, ShadeRec& sr) const = 0;
 		virtual bool HitTest(const Ray& ray, Float& tMin) const = 0;
+		void SetSampler(Sampler* sampler) {
+			this->sampler = sampler;
+		}
 		RGBColor color;
 		Material* material;
+
+		//只是给面积灯用的
+		virtual Point3f Sample();
+		virtual Float Pdf();
+
+		virtual Normal3f GetNormal(const Point3f& point);
+	protected:
+		Sampler* sampler;
 	};
 
 	class Plane : public Shape
@@ -21,7 +33,7 @@ namespace BL {
 		Plane(const Point3f& p, const Normal3f& n) :point(p), normal(Normalize(n)) {
 		}
 
-		bool Hit(const Ray& ray, Float& tMin, ShadeRec& sr) const 
+		bool Hit(const Ray& ray, Float& tMin, ShadeRec& sr) const
 		{
 			Float t = Dot((point - ray.o), normal) / Dot(ray.d, normal);
 			if (t > kEpsilon) {
@@ -55,9 +67,76 @@ namespace BL {
 		Normal3f normal;
 	};
 
+	class Rectangle : public Shape
+	{
+	public:
+		Rectangle(const Point3f& p, const Normal3f& n, const Vector3f& aSide, const Vector3f& bSide) :
+			point(p), 
+			normal(Normalize(n)), aSide(aSide), bSide(bSide){
+			aSideLenSquare = aSide.LengthSquared(); bSideLenSquare = bSide.LengthSquared();
+			invAea = 1 / sqrt(aSideLenSquare * bSideLenSquare);
+		}
+
+		bool Hit(const Ray& ray, Float& tMin, ShadeRec& sr) const
+		{
+			Float t = Dot((point - ray.o), normal) / Dot(ray.d, normal);
+			if (t < kEpsilon)
+				return false;
+			Point3f hitpoint = ray.o + ray.d * t;
+			Vector3f d = hitpoint - point;
+			//计算在a边的投影长度
+			Float da = Dot(d,aSide);
+			if (da < 0 || da > aSideLenSquare)
+				return false;
+
+			Float db = Dot(d,bSide);
+			if (db < 0 || db > bSideLenSquare) {
+				return false;
+			}
+
+			tMin = t;
+			sr.localHitPoint = hitpoint;
+			sr.hitAnObject = true;
+			sr.normal = normal;
+			sr.material = material;
+			return true;
+		}
+
+		bool HitTest(const Ray& ray, Float& tMin) const
+		{
+			Float t = Dot((point - ray.o), normal) / Dot(ray.d, normal);
+			if (t < kEpsilon)
+				return false;
+			Point3f hitpoint = ray.o + ray.d * t;
+			Vector3f d = hitpoint - point;
+			//计算在a边的投影长度
+			Float da = Dot(aSide, d);
+			if (da < 0 || da > aSideLenSquare)
+				return false;
+
+			Float db = Dot(bSide, d);
+			if (db < 0 || db > bSideLenSquare) {
+				return false;
+			}
+			return true;
+		}
+		Point3f Sample();
+		Normal3f GetNormal(const Point3f& point);
+		Float Pdf();
+	protected:
+		static  const Float kEpsilon;
+		Point3f point;
+		Normal3f normal;
+		Vector3f aSide;
+		Vector3f bSide;
+		Float aSideLenSquare;
+		Float bSideLenSquare;
+		Float invAea;
+	};
+
 	class Sphere : public Shape {
 	public:
-		Sphere(const Point3f& p, Float r) :position(p), radious(r) {}		
+		Sphere(const Point3f& p, Float r) :position(p), radious(r) {}
 		virtual bool Hit(const Ray& ray, Float& tMin, ShadeRec& sr) const
 		{
 			Vector3f temp = ray.o - position;

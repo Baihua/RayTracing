@@ -16,8 +16,8 @@ namespace BL {
 	class Point2;
 	template <typename T>
 	class Normal3;
+	class Shape;
 	class World;
-
 	class Sampler;
 
 	class Material;

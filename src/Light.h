@@ -10,7 +10,8 @@ namespace BL {
 		~Light() {};
 		virtual Vector3f GetDirection(ShadeRec& sr) = 0;
 		virtual RGBColor L(ShadeRec& sr) = 0;
-		
+		virtual Float G(const ShadeRec& sr) { return 0; }
+		virtual Float Pdf(const ShadeRec& sr) { return 0; }
 		virtual bool InShaodws(const Ray& ray, const ShadeRec& sr)const {
 			return false;
 		}
@@ -39,12 +40,12 @@ namespace BL {
 	private:
 		Float ls;
 		RGBColor color;
-		
+
 	};
 	//////////////////////////////////////////////////////////////////////////
 	class PointLight : public Light {
 	public:
-		PointLight():ls(1.0), color(ColorWhite){}
+		PointLight() :ls(1.0), color(ColorWhite) {}
 		virtual Vector3f GetDirection(ShadeRec& sr) {
 			return (location - sr.localHitPoint).Normalize();
 		}
@@ -69,10 +70,10 @@ namespace BL {
 		Point3f  location;
 	};
 	//////////////////////////////////////////////////////////////////////////
-	class AmbientOccluder: public Light
+	class AmbientOccluder : public Light
 	{
 	public:
-		AmbientOccluder():ls(1), color(ColorWhite) {};
+		AmbientOccluder() :ls(1), color(ColorWhite) {};
 		virtual Vector3f GetDirection(ShadeRec& sr);
 		virtual RGBColor L(ShadeRec& sr);
 		virtual bool InShaodws(const Ray& ray, const ShadeRec& sr)const;
