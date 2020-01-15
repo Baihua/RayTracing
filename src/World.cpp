@@ -44,18 +44,26 @@ namespace BL {
 			
 		Emissive* emissive = new Emissive();
 		emissive->SetColor(ColorWhite);
-		emissive->SetScaleRadiance(40.0);
+		emissive->SetScaleRadiance(140.0);
+
+		//Phong* phong0 = new Phong();
+		//phong0->SetKOfAmbient(0.25f);
+		//phong0->SetKOfDiffuse(1.65);
+		//phong0->SetKOfSpecular(0.1);
+		//phong0->SetColor(ColorWhite);
+		//phong0->SetExp(2);
 
 		s = new JitteredSampler(SampleNumPerPixes, 2);//采样数需要和每个像素采样次数一致
 		s->GenerateSamples();
-		Rectangle* rec = new Rectangle(Point3f(0, 40, -30), Normal3f(0, 0, 1), Vector3f(2, 0, 0), Vector3f(0, 40, 0));
+		Rectangle* rec = new Rectangle(Point3f(-70, -70, -70), Normal3f(0, 1, 0), Vector3f(140, 0, 0), Vector3f(0, 0, 140));
 		rec->material = emissive;
 		rec->SetSampler(s);
 		AddObject(rec);
+		
 		AreaLight* arealight = new AreaLight();
 		arealight->SetShape(rec);
 		arealight->SetMaterial(emissive);
-		//AddLight(arealight);
+		AddLight(arealight);
 		
 		Phong* phong = new Phong();
 		phong->SetKOfAmbient(0.25f);

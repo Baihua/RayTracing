@@ -8,10 +8,8 @@ namespace BL {
 		Vector3f GetDirection(ShadeRec& sr);
 		bool InShaodws(const Ray& ray, const ShadeRec& sr)const;
 		RGBColor L(ShadeRec& sr);
-
-		virtual RGBColor TraceRay(const Ray& ray, const int depth)const;
-		Float G(ShadeRec& sr);
-		Float Pdf(ShadeRec& sr);
+		Float G(const ShadeRec& sr);
+		Float Pdf(const ShadeRec& sr);
 		void SetShape(Shape* shape);
 		void SetMaterial(Material* mat);
 	protected:

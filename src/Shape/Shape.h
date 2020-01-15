@@ -74,7 +74,7 @@ namespace BL {
 			point(p), 
 			normal(Normalize(n)), aSide(aSide), bSide(bSide){
 			aSideLenSquare = aSide.LengthSquared(); bSideLenSquare = bSide.LengthSquared();
-			invAea = 1 / sqrt(aSideLenSquare * bSideLenSquare);
+			invAea = 1 / (aSide.Length()*bSide.Length());
 		}
 
 		bool Hit(const Ray& ray, Float& tMin, ShadeRec& sr) const
@@ -86,11 +86,11 @@ namespace BL {
 			Vector3f d = hitpoint - point;
 			//计算在a边的投影长度
 			Float da = Dot(d,aSide);
-			if (da < 0 || da > aSideLenSquare)
+			if (da < 0 ||(da - aSideLenSquare)  > -kEpsilon)
 				return false;
 
 			Float db = Dot(d,bSide);
-			if (db < 0 || db > bSideLenSquare) {
+			if (db < 0 || (db-bSideLenSquare) > -kEpsilon) {
 				return false;
 			}
 

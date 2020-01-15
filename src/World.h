@@ -13,7 +13,7 @@
 #include "Material.h";
 namespace BL {
 
-//#define  AREALIGHT_TRACE
+#define  AREALIGHT_TRACE
 
 	class World
 	{
@@ -158,7 +158,7 @@ namespace BL {
 				Float x = viewPlane.pixSize * (c - 0.5f * viewPlane.width + 0.5f);
 				Float y = viewPlane.pixSize * (r - 0.5f * viewPlane.height + 0.5f);
 				ray.o = Point3f(x, y, 100);
-				return hitBareBonesObjects(ray).color;
+				return GetTraceRayColor(ray);
 			}
 			int num = sampler->GetNumSamples();
 			RGBColor pixelColor;
@@ -167,7 +167,7 @@ namespace BL {
 				Float x = viewPlane.pixSize * (c - 0.5f * viewPlane.width + p.x);
 				Float y = viewPlane.pixSize * (r - 0.5f * viewPlane.height + p.y);
 				ray.o = Point3f(x, y, 100);
-				pixelColor += hitBareBonesObjects(ray).color;
+				pixelColor += GetTraceRayColor(ray);
 			}
 			return pixelColor / num;
 		}

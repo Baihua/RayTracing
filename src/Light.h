@@ -12,7 +12,7 @@ namespace BL {
 		virtual RGBColor L(ShadeRec& sr) = 0;
 		virtual Float G(const ShadeRec& sr) { return 0; }
 		virtual Float Pdf(const ShadeRec& sr) { return 0; }
-		virtual bool InShaodws(const Ray& ray, const ShadeRec& sr)const {
+		virtual bool InShadows(const Ray& ray, const ShadeRec& sr)const {
 			return false;
 		}
 

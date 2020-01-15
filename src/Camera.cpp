@@ -93,12 +93,12 @@ namespace BL {
 					Float rsqr = pn.LengthSquared();
 					if (rsqr <= 1.0f) {
 						Float r = sqrt(rsqr);
-						float psi = r * psiMax;
-						float sinPsi = sin(psi);
-						float cosPsi = cos(psi);
+						Float psi = r * psiMax;
+						Float sinPsi = sin(psi);
+						Float cosPsi = cos(psi);
 
-						float sinAlpha = pn.y / r;
-						float cosAlpha = pn.x / r;
+						Float sinAlpha = pn.y / r;
+						Float cosAlpha = pn.x / r;
 						ray.d = sinPsi * cosAlpha * u + sinPsi * sinAlpha * v - cosPsi * w;
 						ray.d.Normalize();
 					}

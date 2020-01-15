@@ -98,7 +98,7 @@ namespace BL {
 	RGBColor Phong::AreaLightShade(ShadeRec& sr)
 	{
 		Vector3f wo = -sr.ray.d;
-		RGBColor L = ambientBRDF->Rho(sr, wo) * GetWorldPtr->ambiant->L(sr);
+		RGBColor L = ColorBlack;// ambientBRDF->Rho(sr, wo)* GetWorldPtr->ambiant->L(sr);
 		int lightsNum = GetWorldPtr->lights.size();
 		for (auto i = 0; i < lightsNum; i++)
 		{
@@ -114,8 +114,8 @@ namespace BL {
 			{
 				Float ndotWi = Dot(sr.normal, wi);
 				if (ndotWi > 0.0)
-					L += (diffuseBRDF->F(sr, wi, wo) + specularBRDF->F(sr, wi, wo)) * 
-					(light->L(sr) * light->G(sr) * ndotWi/light->Pdf(sr));
+					L +=  (diffuseBRDF->F(sr, wi, wo) + specularBRDF->F(sr, wi, wo))* light->L(sr);// *
+					//(light->L(sr) * light->G(sr) * ndotWi/light->Pdf(sr));
 			}
 		}
 		return L;

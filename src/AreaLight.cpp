@@ -17,25 +17,14 @@ namespace BL {
 			return ColorBlack;
 	}
 
-	RGBColor AreaLight::TraceRay(const Ray& ray, const int depth)const {
-		ShadeRec sr(GetWorldPtr->HitObjects(ray));
-		if (sr.hitAnObject) {
-			sr.ray = ray;
-			return(sr.material->AreaLightShade(sr));
-		}
-		else {
-			return GetWorldPtr->backgroundColor;
-		}
-	}
-
-	Float AreaLight::G(ShadeRec& sr) {
+	Float AreaLight::G(const ShadeRec& sr) {
 		float ndotd = Dot(-lightNormal, wi);
 		float d2 = 1;
 		d2 = (samplerPoint - sr.localHitPoint).LengthSquared();
 		return ndotd / d2;
 	}
 
-	Float AreaLight::Pdf(ShadeRec& sr) {
+	Float AreaLight::Pdf(const ShadeRec& sr) {
 		return shape->Pdf();
 	}
 

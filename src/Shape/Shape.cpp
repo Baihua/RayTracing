@@ -13,9 +13,9 @@ namespace BL {
 		return Normal3f(0, 0, 0);
 	}
 
-	const Float Plane::kEpsilon = 0.0001;
+	const Float Plane::kEpsilon = 0.001;
 
-	const  Float Sphere::kEpsilon = 0.0001;
+	const  Float Sphere::kEpsilon = 0.001;
 
 	
 	//////////////////////////////////////////////////////////////////////////

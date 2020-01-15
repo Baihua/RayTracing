@@ -4,7 +4,7 @@
 
 
 namespace BL {
-	typedef float Float;
+	typedef double Float;
 
 	template <typename T>
 	class Vector2;
@@ -41,7 +41,7 @@ namespace BL {
 	static Float MaxFloat = std::numeric_limits<Float>::max();
 	static Float Infinity = std::numeric_limits<Float>::infinity();
 
-	static int SampleNumPerPixes = 168;
+	static int SampleNumPerPixes = 128;
 
 	static float rand_float()
 	{
