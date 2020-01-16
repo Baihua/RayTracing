@@ -32,30 +32,24 @@ namespace BL {
 		Sampler* s = new JitteredSampler(SampleNumPerPixes, 2);//采样数需要和每个像素采样次数一致。
 		s->GenerateSamples();
 		a->SetSampler(s);
-		a->SetMinAmount(1);
+		a->SetMinAmount(0);
 		SetAmbiant(a);
 
-		PointLight* ptLight = new PointLight();
-		ptLight->SetPosition(Point3f(100, 200, -20));
-		ptLight->SetScaleRadiance(3.0f);
-		ptLight->SetCastShadows(true);
-		AddLight(ptLight);
+		//PointLight* ptLight = new PointLight();
+		//ptLight->SetPosition(Point3f(100, 200, -20));
+		//ptLight->SetScaleRadiance(3.0f);
+		//ptLight->SetCastShadows(true);
+		//AddLight(ptLight);
 
 			
 		Emissive* emissive = new Emissive();
 		emissive->SetColor(ColorWhite);
 		emissive->SetScaleRadiance(140.0);
 
-		//Phong* phong0 = new Phong();
-		//phong0->SetKOfAmbient(0.25f);
-		//phong0->SetKOfDiffuse(1.65);
-		//phong0->SetKOfSpecular(0.1);
-		//phong0->SetColor(ColorWhite);
-		//phong0->SetExp(2);
 
 		s = new JitteredSampler(SampleNumPerPixes, 2);//采样数需要和每个像素采样次数一致
 		s->GenerateSamples();
-		Rectangle* rec = new Rectangle(Point3f(-70, -70, -70), Normal3f(0, 1, 0), Vector3f(140, 0, 0), Vector3f(0, 0, 140));
+		Rectangle* rec = new Rectangle(Point3f(0, 50, -30), Normal3f(0, -0.3, 1), Vector3f(40, 0, 0), Vector3f(0, 40, 0));
 		rec->material = emissive;
 		rec->SetSampler(s);
 		AddObject(rec);
@@ -63,6 +57,7 @@ namespace BL {
 		AreaLight* arealight = new AreaLight();
 		arealight->SetShape(rec);
 		arealight->SetMaterial(emissive);
+		arealight->SetCastShadows(true);
 		AddLight(arealight);
 		
 		Phong* phong = new Phong();
@@ -71,12 +66,13 @@ namespace BL {
 		phong->SetKOfSpecular(0.1);
 		phong->SetColor(ColorBlue);
 		phong->SetExp(2);
-		Sphere* sphere = new Sphere(Point3f(0, 0, -20), 40);
+
+		Sphere* sphere = new Sphere(Point3f(-40, 0, -20), 40);
 		sphere->material = phong;
 		AddObject(sphere);
 
 
-		/*Matte* matte = new Matte();
+		Matte* matte = new Matte();
 		matte->SetKOfAmbient(0.25f);
 		matte->SetKOfDiffuse(0.65);
 		matte->SetCd(ColorRed);
@@ -101,7 +97,7 @@ namespace BL {
 		phong->SetExp(2);
 		Plane* p = new Plane(Point3f(0, -50, 0), Normal3f(0, 100, 1));
 		p->material = phong;
-		AddObject(p);*/
+		AddObject(p);
 
 		if (dislayPixelData != NULL) {
 			delete[] dislayPixelData;

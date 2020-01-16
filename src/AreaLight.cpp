@@ -28,7 +28,7 @@ namespace BL {
 		return shape->Pdf();
 	}
 
-	bool AreaLight::InShaodws(const Ray& ray, const ShadeRec& sr)const {
+	bool AreaLight::InShadows(const Ray& ray, const ShadeRec& sr)const {
 		Float distance = (samplerPoint - ray.o).Length();
 		for (auto i = 0; i < GetWorldPtr->objects.size(); i++) {
 			Float t = 0;

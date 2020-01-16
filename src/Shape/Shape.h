@@ -42,11 +42,11 @@ namespace BL {
 				sr.hitAnObject = true;
 				sr.normal = normal;
 				sr.material = material;
+				return true;
 			}
 			else {
 				return false;
 			}
-			return true;
 		}
 
 		bool HitTest(const Ray& ray, Float& tMin) const
@@ -59,7 +59,6 @@ namespace BL {
 			else {
 				return false;
 			}
-			return true;
 		}
 	protected:
 		static  const Float kEpsilon;

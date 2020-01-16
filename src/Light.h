@@ -62,7 +62,7 @@ namespace BL {
 			this->ls = ls;
 		}
 
-		virtual bool InShaodws(const Ray& ray, const ShadeRec& sr)const;
+		virtual bool InShadows(const Ray& ray, const ShadeRec& sr)const;
 
 	private:
 		Float    ls;
@@ -76,7 +76,7 @@ namespace BL {
 		AmbientOccluder() :ls(1), color(ColorWhite) {};
 		virtual Vector3f GetDirection(ShadeRec& sr);
 		virtual RGBColor L(ShadeRec& sr);
-		virtual bool InShaodws(const Ray& ray, const ShadeRec& sr)const;
+		virtual bool InShadows(const Ray& ray, const ShadeRec& sr)const;
 		void SetSampler(Sampler* s);
 		void SetMinAmount(Float v) {
 			minAmount = v;

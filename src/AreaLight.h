@@ -6,7 +6,7 @@ namespace BL {
 	class AreaLight :public Light {
 	public:
 		Vector3f GetDirection(ShadeRec& sr);
-		bool InShaodws(const Ray& ray, const ShadeRec& sr)const;
+		bool InShadows(const Ray& ray, const ShadeRec& sr)const;
 		RGBColor L(ShadeRec& sr);
 		Float G(const ShadeRec& sr);
 		Float Pdf(const ShadeRec& sr);

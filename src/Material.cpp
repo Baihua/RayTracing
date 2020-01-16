@@ -33,7 +33,7 @@ namespace BL {
 			if (light->CastShadows())
 			{
 				Ray shadowR(sr.localHitPoint, wi);
-				inShadows = light->InShaodws(shadowR, sr);
+				inShadows = light->InShadows(shadowR, sr);
 			}
 			if (!inShadows) {
 				if (ndotWi > 0.0)
@@ -51,18 +51,19 @@ namespace BL {
 		{
 			Light* light = GetWorldPtr->lights[i];
 			Vector3f wi = light->GetDirection(sr);
-			bool inShadows = false;
-			if (light->CastShadows())
-			{
-				Ray shadowR(sr.localHitPoint, wi);
-				inShadows = light->InShaodws(shadowR, sr);
-			}
+
 			Float ndotWi = Dot(sr.normal, wi);
 			if (ndotWi > 0) {
+				bool inShadows = false;
+				if (light->CastShadows())
+				{
+					Ray shadowR(sr.localHitPoint, wi);
+					inShadows = light->InShadows(shadowR, sr);
+				}
 				if (!inShadows)
 				{
-					L += diffuseBRDF->F(sr, wi, wo) * 
-						light->L(sr)*light->G(sr) * ndotWi/ light->Pdf(sr);
+					L += diffuseBRDF->F(sr, wi, wo) *
+						light->L(sr) * light->G(sr) * ndotWi / light->Pdf(sr);
 				}
 			}
 		}
@@ -83,7 +84,7 @@ namespace BL {
 			if (light->CastShadows())
 			{
 				Ray shadowR(sr.localHitPoint, wi);
-				inShadows = light->InShaodws(shadowR, sr);
+				inShadows = light->InShadows(shadowR, sr);
 			}
 			if (!inShadows)
 			{
@@ -98,24 +99,23 @@ namespace BL {
 	RGBColor Phong::AreaLightShade(ShadeRec& sr)
 	{
 		Vector3f wo = -sr.ray.d;
-		RGBColor L = ColorBlack;// ambientBRDF->Rho(sr, wo)* GetWorldPtr->ambiant->L(sr);
+		RGBColor L = ambientBRDF->Rho(sr, wo) * GetWorldPtr->ambiant->L(sr);
 		int lightsNum = GetWorldPtr->lights.size();
 		for (auto i = 0; i < lightsNum; i++)
 		{
 			Light* light = GetWorldPtr->lights[i];
 			Vector3f wi = light->GetDirection(sr);
-			bool inShadows = false;
-			if (light->CastShadows())
+			Float ndotWi = Dot(sr.normal, wi);
+			if (ndotWi > 0.0)
 			{
-				Ray shadowR(sr.localHitPoint, wi);
-				inShadows = light->InShaodws(shadowR, sr);
-			}
-			if (!inShadows)
-			{
-				Float ndotWi = Dot(sr.normal, wi);
-				if (ndotWi > 0.0)
-					L +=  (diffuseBRDF->F(sr, wi, wo) + specularBRDF->F(sr, wi, wo))* light->L(sr);// *
-					//(light->L(sr) * light->G(sr) * ndotWi/light->Pdf(sr));
+				bool inShadows = false;
+				if (light->CastShadows())
+				{
+					Ray shadowR(sr.localHitPoint, wi);
+					inShadows = light->InShadows(shadowR, sr);
+				}
+				if (!inShadows)
+					L += (diffuseBRDF->F(sr, wi, wo) + specularBRDF->F(sr, wi, wo)) * light->L(sr) * light->G(sr) * ndotWi / light->Pdf(sr);
 			}
 		}
 		return L;
@@ -158,7 +158,7 @@ namespace BL {
 		else
 			return ColorBlack;
 	}
-	RGBColor Emissive::GetLe(ShadeRec& sr) const {
+	RGBColor Emissive::Le(ShadeRec& sr) const {
 		return ls * color;
 	}
 	void Emissive::SetColor(const RGBColor& color) {

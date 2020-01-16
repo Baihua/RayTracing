@@ -13,7 +13,7 @@ namespace BL {
 		};
 
 		//×Ô·¢¹â
-		virtual RGBColor Le(ShadeRec& sr) {
+		virtual RGBColor Le(ShadeRec& sr) const{
 			return ColorBlack;
 		}
 	};
@@ -52,8 +52,7 @@ namespace BL {
 		Emissive();
 		RGBColor Shade(ShadeRec& sr);
 		RGBColor AreaLightShade(ShadeRec& sr);
-		virtual RGBColor GetLe(ShadeRec& sr) const;
-		
+		virtual RGBColor Le(ShadeRec& sr) const;
 		void SetScaleRadiance(const Float ls);
 		void SetColor(const RGBColor& color);
 		
